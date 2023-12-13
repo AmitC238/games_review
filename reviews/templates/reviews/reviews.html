@@ -6,13 +6,30 @@
     <title>Game Reviews</title>
   </head>
   <body>
+    <header>
+      {% if user.is_authenticated %}
+      <p>
+        Welcome, {{ user.username }}!
+        <form method="post" action="{% url 'logout' %}">
+          {% csrf_token %}
+          <button type="submit">Logout</button>
+        </form>
+      </p>
+      {% else %}
+      <p>
+        <a href="{% url 'login' %}">Login</a> |
+        <a href="{% url 'register' %}">Register</a>
+      </p>
+      {% endif %}
+    </header>
     <h1>Game Reviews</h1>
     <p>Welcome to our game reviews page!</p>
     <ul>
       {% for post in posts %}
       <li>
-        <h2>{{ post.title }}</h2>
+        <p>{{ post.title }}</p>
         <p>{{ post.body }}</p>
+        <p>{{ post.rating }}</p>
         <p>Author: {{ post.author.username }}</p>
         {% if request.user == post.author %}
         <a href="{% url 'edit_post' post.id %}">Edit</a>

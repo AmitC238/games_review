@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Post</title>
+  </head>
+  <body>
+    <h2>Edit Post</h2>
+    <form method="post" action="{% url 'edit_post' post.id %}">
+      {% csrf_token %}
+      <label for="title">Game:</label>
+      <input
+        type="text"
+        id="title"
+        name="title"
+        value="{{ post.title }}"
+        required
+      />
+      <br />
+      <label for="body">Description:</label>
+      <textarea id="body" name="body" rows="4" required>
+{{ post.body }}</textarea
+      >
+      <br />
+      <label for="rating">Rating:</label>
+      <select id="rating" name="rating" required>
+        {% for i in "012345" %}
+        <option
+          value="{{ i }}"
+          {%
+          ifequal
+          i
+          post.rating
+          %}selected{%
+          endifequal
+          %}
+        >
+          {{ i }}
+        </option>
+        {% endfor %}
+      </select>
+      <br />
+      <button type="submit">Update Post</button>
+    </form>
+    <p><a href="{% url 'reviews' %}">Back to Reviews</a></p>
+  </body>
+</html>
